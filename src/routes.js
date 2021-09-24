@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-const apiController  = require('./controllers/apiController');
+const apiController = require('./controllers/apiController');
 
-router.get('/actor',apiController.buscarTudo);
+router.get('/teste', apiController.buscarTudo);
+router.post('/registrar', apiController.registrar);
 
 module.exports = router;
