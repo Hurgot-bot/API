@@ -1,5 +1,5 @@
 const db = require('../db')
-
+const bcrypt = require('bcrypt');
 
 
 
@@ -33,14 +33,13 @@ module.exports = {
 
         
         return new Promise((aceito, rejeitado) => {
-            db.query('select coalesce(count(email)=1,1,0) as counter from deshah where email = ? ', [email],
+            db.query('select coalesce(count(email)=1,1,0) as counter,senha from deshah where email = ? ', [email],
                 (error, results) => {
                     if (error) { rejeitado(error); return; }
-                    //console.log(email,String(results[0]));
-                    aceito(results[0].counter);
+                    aceito(results[0]);
                     
                 }
             );
-        });//select coalesce(count(email)>0) as counter from deshah where email != ? 
-    },//select coalesce(count(email)>0) as counter from deshah where email != ? 
+        });
+    }
 }

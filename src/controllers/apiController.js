@@ -53,15 +53,17 @@ module.exports = {
 
         let email = req.body.email;
         let senha = req.body.senha;
+        let message = "Success"
         
         if (email && senha) {
-            if(await apiService.verify(email,senha) == 1){
-                json.result = {
-                    message:"Encontrado email igual"
-                }
+            result = await apiService.verify(email,senha);
+            console.log(result.counter +" - " +result.senha);
+            if(result.counter==0){
+                message = "email Invalido"
             }else{
-                json.result = {
-                    message: 'Email unico'
+                senhaCorreta = await bcrypt.compare(senha,result.senha);
+                if(senhaCorreta==false){
+                    message = "senha incorreta"
                 }
             }
 
@@ -70,7 +72,10 @@ module.exports = {
         }
 
 
-
+        json.result = {
+            mensagem : message
+        }
         res.json(json);
     }
 }
+
